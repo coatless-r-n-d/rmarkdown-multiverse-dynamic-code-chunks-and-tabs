@@ -1,0 +1,51 @@
+---
+title: "Dynamic Report Generation for Many Model Conditions"
+author: "JJB"
+date: "9/10/2021"
+output: html_document
+---
+
+# Overview
+
+In this report, we view different results from fitting many different models
+using a repeatable, dynamic code chunk generation technique.
+
+## Simulation {.tabset}
+
+```{r, echo=FALSE, results='asis'}
+# Based off of: https://bookdown.org/yihui/rmarkdown-cookbook/knit-expand.html
+
+# Specify the code chunk to repeat
+template_code_chunk = '
+#### O{{order}}  {.tabset .tabset-pills}
+
+Test inline R code: `r {{order}}`
+
+##### Q  {.tabset .tabset-pills}
+##### Beta  {.tabset .tabset-pills}
+##### Delta  {.tabset .tabset-pills}
+##### Pi  {.tabset .tabset-pills}
+'
+
+# Dynamically build report overviews
+expanded_source = purrr::map(2:5, function(k) {
+  
+  # Construct the outer menu
+  k_header = knitr::knit_expand(text = "### K{{k}}  {.tabset .tabset-pills}")
+  orders = seq_len(k)
+  
+  # Construct a per-condition inner menu code block using the template
+  order_body = purrr::map_chr(orders, function(order) {
+    knitr::knit_expand(text = template_code_chunk)
+  })
+  
+  # Combine results
+  c(k_header, order_body)
+})
+
+# Generate results
+res = knitr::knit_child(text = unlist(expanded_source), quiet = TRUE)
+
+# Output results
+cat(res, sep = '\n')
+```
