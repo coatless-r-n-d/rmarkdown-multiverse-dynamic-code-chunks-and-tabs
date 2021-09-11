@@ -1,5 +1,7 @@
 ## Multiverse Reports with RMarkdown's Dynamic Code Chunk Creation and Tabbed Interface
 
+![](https://raw.githubusercontent.com/r-pkg-examples/rmarkdown-multiverse-dynamic-code-chunks-and-tabs/blob/main/multiverse-demo.gif)
+
 > **multiverse:** a theoretical reality that includes a possibly infinite number of parallel universes.
 > 
 > --- [Webster's Dictionary](https://www.merriam-webster.com/dictionary/multiverse)
